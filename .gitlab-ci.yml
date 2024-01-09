@@ -1,0 +1,20 @@
+image: node:12.19.1
+
+before_script:
+- export PATH=$PATH:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+
+stages:
+  - deploy
+
+deploy-prod:
+  stage: deploy
+  script:
+    - echo "deploying to server"
+    - cd ~/..
+    - cd /var/www/dainik-jagran
+    - git pull origin staging
+    - npm i
+    - npm run build
+    - sudo systemctl restart nginx
+  when: manual
+
